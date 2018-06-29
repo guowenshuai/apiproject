@@ -52,7 +52,7 @@ func (this *WebSocketController) Get() {
 
 
 func (this *WebSocketController) Upgrade() {
-	uid := this.GetString("uid")
+	uid := this.GetString(":uid")
 	beego.Info("new websocket user: ", uid)
 	if len(uid) == 0 {
 		this.Redirect("/", 302)

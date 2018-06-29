@@ -7,7 +7,7 @@
             var uid = document.getElementById("uid").value;
             var textArea = document.getElementById("messageShow");
 
-            socket = new WebSocket('ws://127.0.0.1:38080/v1/ws?uid=' + uid);
+            socket = new WebSocket('ws://127.0.0.1:38080/v1/ws/' + uid);
             // Message received on the socket
             socket.onopen = function (ev) {
                 document.getElementById("status").value = "connected";

@@ -38,7 +38,7 @@ func init() {
 	beego.GlobalControllerRouter["github.com/guowenshuai/apiproject/controllers:JobController"] = append(beego.GlobalControllerRouter["github.com/guowenshuai/apiproject/controllers:JobController"],
 		beego.ControllerComments{
 			Method:           "ByBoss",
-			Router:           `/ByBoss`,
+			Router:           `/ByBoss/:boss`,
 			AllowHTTPMethods: []string{"get"},
 			MethodParams:     param.Make(),
 			Params:           nil})
@@ -71,7 +71,7 @@ func init() {
 	beego.GlobalControllerRouter["github.com/guowenshuai/apiproject/controllers:WebSocketController"] = append(beego.GlobalControllerRouter["github.com/guowenshuai/apiproject/controllers:WebSocketController"],
 		beego.ControllerComments{
 			Method:           "Upgrade",
-			Router:           `/`,
+			Router:           `/:uid`,
 			AllowHTTPMethods: []string{"get"},
 			MethodParams:     param.Make(),
 			Params:           nil})

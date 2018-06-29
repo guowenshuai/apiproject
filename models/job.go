@@ -7,8 +7,8 @@ import (
 	beeOrm "github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/guowenshuai/apiproject/db"
-	"github.com/pkg/errors"
 	"strconv"
+	"github.com/astaxie/beego"
 )
 
 //var w io.Writer
@@ -106,21 +106,36 @@ func JobByBoss(boss string) (job Job, err error) {
 }
 
 // 根据id删除
-func JobDelete(id string) (int64, error) {
+func JobDelete(id string) (Job, error) {
+	job, err := JobById(id)
+	if err != nil  {
+		return Job{}, err
+	}
+	t := job
+	beego.Info("find job and will delete", job)
 	o := beeOrm.NewOrm()
-	job := Job{}
-	job.Id, _ = strconv.Atoi(id)
-	return o.Delete(&job)
+	if _, err = o.Delete(&job); err != nil {
+		return Job{}, err
+	} else {
+		return t, nil
+	}
+	// 删除job后， job.Id会变成0
+	// 返回删除之前的job内容
 }
 
 // 根据id更新job
-func JobUpdate(id string, job Job) (int64, error) {
-	o := beeOrm.NewOrm()
-	jobId, _ := strconv.Atoi(id)
-	if o.Read(&Job{Id: jobId}) == nil {
-		job.Id = jobId
-		return o.Update(&job)
-	} else {
-		return 0, errors.New("can not find job via id: " + id)
+func JobUpdate(id string, newJob Job) (Job, error) {
+	job, err := JobById(id)
+	if err != nil  {
+		return Job{}, err
 	}
+
+	o := beeOrm.NewOrm()
+	newJob.Id = job.Id
+	if _, err = o.Update(&newJob); err != nil {
+		return Job{}, err
+	} else {
+		return newJob, nil
+	}
+
 }

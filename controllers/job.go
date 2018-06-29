@@ -1,23 +1,23 @@
 /***
 package controllers implement the controller for router
 
- */
+*/
 
 package controllers
 
 import (
-	"github.com/guowenshuai/apiproject/models"
+	"encoding/json"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
-	"encoding/json"
+	"github.com/guowenshuai/apiproject/models"
 )
 
 type JobController struct {
 	beego.Controller
 }
 
-func (j *JobController)recoverHandler() {
-	if err := recover();  err != nil {
+func (j *JobController) recoverHandler() {
+	if err := recover(); err != nil {
 		logs.Info("recover error msg: ", err)
 		j.Data["json"] = map[string]string{"msg": "recover happened"}
 		j.ServeJSON()
@@ -34,7 +34,13 @@ func (j *JobController) GetAll() {
 	if err != nil {
 		j.Data["json"] = err.Error()
 	}
-	j.Data["json"] = jobs
+	if len(jobs) == 0 {
+		j.Data["json"] = map[string]string{
+			"msg": "jobs is empty",
+		}
+	} else {
+		j.Data["json"] = jobs
+	}
 	j.ServeJSON()
 }
 
@@ -45,7 +51,10 @@ func (j *JobController) Get() {
 	jobId := j.GetString(":jobId")
 	job, err := models.JobById(jobId)
 	if err != nil {
-		j.Data["json"] = err.Error()
+		beego.Error("find job by id: ", err.Error())
+		j.Data["json"] = map[string]string{
+			"msg": err.Error(),
+		}
 	} else {
 		j.Data["json"] = job
 	}
@@ -56,10 +65,13 @@ func (j *JobController) Get() {
 // return job record by job's field `boss`
 func (j *JobController) ByBoss() {
 	defer j.recoverHandler()
-	boss := j.GetString("boss")
+	boss := j.GetString(":boss")
 	job, err := models.JobByBoss(boss)
 	if err != nil {
-		j.Data["json"] = err.Error()
+		beego.Error("find job by boss: ", err.Error())
+		j.Data["json"] = map[string]string{
+			"msg": err.Error(),
+		}
 	} else {
 		j.Data["json"] = job
 	}
@@ -75,7 +87,10 @@ func (j *JobController) Post() {
 
 	insertId, err := models.InsertJobs(jobs)
 	if err != nil {
-		j.Data["json"] = err.Error()
+		beego.Error("insert jobs error: ", err.Error())
+		j.Data["json"] = map[string]string{
+			"msg": err.Error(),
+		}
 	} else {
 		j.Data["json"] = map[string]int64{"success insert nums": insertId}
 	}
@@ -88,10 +103,12 @@ func (j *JobController) Delete() {
 	jobId := j.GetString(":jobId")
 	logs.Info("try to delete id: ", jobId)
 
-	if nums, err := models.JobDelete(jobId); err != nil || nums == 0 {
-		j.Data["json"] = map[string]string{"msg": "delete failed"}
+	if job, err := models.JobDelete(jobId); err != nil {
+		j.Data["json"] = map[string]string{
+			"msg": err.Error(),
+		}
 	} else {
-		j.Data["json"] = map[string]string{"msg": "delete success"}
+		j.Data["json"] = job
 	}
 	j.ServeJSON()
 }
@@ -105,13 +122,13 @@ func (j *JobController) Put() {
 	json.Unmarshal(j.Ctx.Input.RequestBody, &job)
 	logs.Info("try to update id: ", jobId)
 
-	if nums, err := models.JobUpdate(jobId, job); err != nil || nums == 0 {
-		logs.Info("nums err", nums, err)
-		logs.Info("update job failed")
-		j.Data["json"] = map[string]string{"msg": "update failed"}
+	if jb, err := models.JobUpdate(jobId, job); err != nil {
+		logs.Info("update job failed: ", err.Error())
+		j.Data["json"] = map[string]string{
+			"msg": err.Error(),
+		}
 	} else {
-		j.Data["json"] = map[string]string{"msg": "update success"}
+		j.Data["json"] = jb
 	}
 	j.ServeJSON()
-
 }
