@@ -1,0 +1,26 @@
+hash: 2b2837424ddb00d1fdecc07a586e86ed64d725969723ba57c7609392a58a91fb
+updated: 2018-06-25T13:17:00.299518532+08:00
+imports:
+- name: github.com/astaxie/beego
+  version: bf5c5626ab429e66d88602e1ab1ab5fbf4629a01
+  subpackages:
+  - config
+  - context
+  - context/param
+  - grace
+  - logs
+  - orm
+  - session
+  - toolbox
+  - utils
+- name: github.com/go-sql-driver/mysql
+  version: d523deb1b23d913de5bdada721a6071e71283618
+- name: github.com/gorilla/websocket
+  version: ea4d1f681babbce9545c9c5f3d5194a789c89f5b
+- name: github.com/pkg/errors
+  version: 645ef00459ed84a119197bfb8d8205042c6df63d
+- name: google.golang.org/appengine
+  version: b1f26356af11148e710935ed1ac8a7f5702c7612
+  subpackages:
+  - cloudsql
+testImports: []

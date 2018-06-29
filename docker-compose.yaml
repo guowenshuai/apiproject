@@ -1,0 +1,49 @@
+version: '3'
+services:
+  apiproject-client:
+    build:
+      context: resource/client
+      dockerfile: Dockerfile
+    image: wenshuai/apiprojectclient
+    container_name: apiproject_client
+    restart: always
+    ports:
+      - "30080:80"
+
+  apiproject-server:
+    build:
+      context: resource/server
+      dockerfile: Dockerfile
+    image: wenshuai/apiproject
+    container_name: apiproject_server
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "38080:8080"
+    environment:
+      MYSQLUSER: root
+      MYSQLPASSWD: root
+      MYSQLURL: db
+      MYSQLPORT: 3306
+      MYSQLDB: test_work
+#    networks:
+#      - backend2
+
+  db:
+    image: mysql:5.7
+    restart: always
+    container_name: apiproject_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test_work
+#      MYSQL_USER: apiproject
+#      MYSQL_PASSWORD: apiproject
+#    networks:
+#      - backend2
+#    ports:
+#      - "33306:3306"
+
+#networks:
+#  backend2:
+#    driver: overlay

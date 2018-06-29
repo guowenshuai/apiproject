@@ -1,0 +1,180 @@
+{
+	"info": {
+		"name": "trainForRancher",
+		"_postman_id": "ed74ba34-800c-4dbe-b339-1b7bc0cfaf51",
+		"description": "rancher培训期间 rest api 测试",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get all jobs",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:38080/v1/job",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "38080",
+					"path": [
+						"v1",
+						"job"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get job by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:38080/v1/job/11",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "38080",
+					"path": [
+						"v1",
+						"job",
+						"11"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get job by boss name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:38080/v1/job/ByBoss?boss=mayun",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "38080",
+					"path": [
+						"v1",
+						"job",
+						"ByBoss"
+					],
+					"query": [
+						{
+							"key": "boss",
+							"value": "mayun",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "post a job",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"Company\": \"baidu\",\n        \"Boss\": \"liyanhong\",\n        \"City\": \"beijing\",\n        \"Address\": \"xi-er-qi\"\n    },\n    {\n        \"Company\": \"tengxun\",\n        \"Boss\": \"mahuateng\",\n        \"City\": \"beijing\",\n        \"Address\": \"wu-dao-kou\"\n    }\n]"
+				},
+				"url": {
+					"raw": "http://localhost:38080/v1/job",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "38080",
+					"path": [
+						"v1",
+						"job"
+					]
+				},
+				"description": "add a job to db"
+			},
+			"response": []
+		},
+		{
+			"name": "delete a job by id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:38080/v1/job/22",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "38080",
+					"path": [
+						"v1",
+						"job",
+						"22"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "update a job",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Company\": \"alijiuma\",\n    \"Boss\": \"mayun\",\n    \"City\": \"hangzhou\",\n    \"Address\": \"shi-zhong-xin\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:38080/v1/job/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "38080",
+					"path": [
+						"v1",
+						"job",
+						"5"
+					]
+				},
+				"description": "update db via put method"
+			},
+			"response": []
+		}
+	]
+}

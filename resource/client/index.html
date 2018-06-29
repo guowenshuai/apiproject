@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        var socket;
+        function conn() {
+            var uid = document.getElementById("uid").value;
+            var textArea = document.getElementById("messageShow");
+
+            socket = new WebSocket('ws://127.0.0.1:38080/v1/ws?uid=' + uid);
+            // Message received on the socket
+            socket.onopen = function (ev) {
+                document.getElementById("status").value = "connected";
+            };
+            socket.onmessage = function (event) {
+                var data = JSON.parse(event.data);
+                console.log(data);
+                switch (data.Type) {
+                    case 0: // message
+                        msg = data.Uid + ": " + data.Content + "\n";
+                        textArea.value += msg;
+                        break;
+                    case 1: // join
+                        msg = data.Uid + " join" + "\n";
+                        textArea.value += msg;
+                        break;
+                    case 2: // Leave
+                        msg = data.Uid + " leave" + "\n";
+                        textArea.value += msg;
+                        break
+                }
+            };
+        }
+        function sendMessage() {
+            var data = document.getElementById("send").value
+            socket.send(data)
+        }
+    </script>
+    <meta charset="UTF-8">
+    <title>webSocket</title>
+</head>
+<body>
+<h1> this is webSocket</h1>
+
+<input type="text" id="uid">
+<button onclick="conn()">connect webSocket</button>
+<label id="status"></label>
+
+<br>
+<input type="text" id="send">
+<button onclick="sendMessage()">send message</button>
+
+
+<br>
+<textarea id="messageShow" style="width: 600px; height: 400px;">
+
+</textarea>
+
+
+</body>
+</html>
