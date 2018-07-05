@@ -59,6 +59,15 @@ func init() {
 			MethodParams:     param.Make(),
 			Params:           nil})
 
+
+	beego.GlobalControllerRouter["github.com/guowenshuai/apiproject/controllers:JobController"] = append(beego.GlobalControllerRouter["github.com/guowenshuai/apiproject/controllers:JobController"],
+		beego.ControllerComments{
+			Method:           "Options",
+			Router:           `/:id`,
+			AllowHTTPMethods: []string{"options"},
+			MethodParams:     param.Make(),
+			Params:           nil})
+
 	beego.GlobalControllerRouter["github.com/guowenshuai/apiproject/controllers:JobController"] = append(beego.GlobalControllerRouter["github.com/guowenshuai/apiproject/controllers:JobController"],
 		beego.ControllerComments{
 			Method:           "Put",

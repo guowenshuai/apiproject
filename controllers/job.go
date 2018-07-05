@@ -38,9 +38,11 @@ func (j *JobController) GetAll() {
 		j.Data["json"] = map[string]string{
 			"msg": "jobs is empty",
 		}
+		j.Ctx.Output.SetStatus(204)
 	} else {
 		j.Data["json"] = jobs
 	}
+
 	j.ServeJSON()
 }
 
@@ -78,12 +80,23 @@ func (j *JobController) ByBoss() {
 	j.ServeJSON()
 }
 
+func (j *JobController) Options() {
+	defer j.recoverHandler()
+	beego.Info("Options request")
+	j.Data["json"] = map[string]string{
+		"msg": "hello",
+	}
+	j.ServeJSON()
+
+}
+
 // Post handles /job POST requests
 // insert a job record
 func (j *JobController) Post() {
 	defer j.recoverHandler()
 	jobs := []models.Job{}
 	json.Unmarshal(j.Ctx.Input.RequestBody, &jobs)
+	beego.Info("insert jobs is: ", jobs)
 
 	insertId, err := models.InsertJobs(jobs)
 	if err != nil {
