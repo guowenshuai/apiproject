@@ -21,6 +21,8 @@ CONTAINER ID        IMAGE                       COMMAND                  CREATED
 http API server Running on http://localhost:38080
 webSocket client Running on http://localhost:30080
 
+[客户端程序已经更新到另一个项目](https://github.com/guowenshuai/apiproject-ui)
+
 ## how to test
 
 ### use postman to test RESUful API
